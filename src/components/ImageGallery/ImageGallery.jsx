@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import {ImageGalleryItem} from "components/ImageGalleryItem/ImageGalleryItem";
+import { ImageGalleryStyle } from "components/ImageGalleryItem/ImageGalleryItem.styled"; 
+
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '35643945-433c06e40cd86730ec72beccd';
 
@@ -21,10 +23,10 @@ export default class ImageGallery extends Component {
     render() {
         const { query } = this.state;
         return (
-            <ul>
+            <ImageGalleryStyle>
                 {query && query.map(hit => (
                 <ImageGalleryItem key={hit.id} hit={hit}/>))}
-            </ul>
+            </ImageGalleryStyle>
         )
     }
 }

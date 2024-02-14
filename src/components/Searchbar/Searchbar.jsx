@@ -21,6 +21,7 @@ export default class Searchbar extends Component {
             return Notiflix.Notify.failure("Enter anything you're looking🔍 for")
         }
         this.props.onSubmitSearch(search);
+        Notiflix.Notify.success(` ${search}`)
         this.resetForm();
     }
 
