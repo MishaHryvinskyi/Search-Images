@@ -1,10 +1,13 @@
 
-const ImageGalleryItem = () => {
+export const ImageGalleryItem = ({ hit }) => {
     return (
-        <li class="gallery-item">
-            <img src="" alt="" />
+        <li>
+            <img 
+                src={hit.previewURL} 
+                alt={hit.tags} 
+                width="800"
+            />
         </li>
     )
 }
 
-export default { ImageGalleryItem };
