@@ -22,10 +22,12 @@ export default class ImageGallery extends Component {
 
     render() {
         const { query } = this.state;
+        const { openModal } = this.props;
+        
         return (
             <ImageGalleryStyle>
                 {query && query.map(hit => (
-                <ImageGalleryItem key={hit.id} hit={hit}/>))}
+                <ImageGalleryItem key={hit.id} hit={hit} openModal={openModal} />))}
             </ImageGalleryStyle>
         )
     }

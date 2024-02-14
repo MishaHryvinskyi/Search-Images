@@ -1,14 +1,18 @@
 import { ImageGalleryItemStyle, ImageGalleryItemImage } from "components/ImageGallery/ImageGallery.styled";
 
-export const ImageGalleryItem = ({ hit }) => {
+export const ImageGalleryItem = ({ hit, openModal  }) => {
+
+    const handleClick = () => {
+        openModal(hit.largeImageURL);
+    }
+
     return (
-        <ImageGalleryItemStyle>
+        <ImageGalleryItemStyle onClick={handleClick}>
             <ImageGalleryItemImage 
-                src={hit.largeImageURL} 
+                src={hit.webformatURL} 
                 alt={hit.tags} 
                 width="800"
             />
         </ImageGalleryItemStyle>
     )
 }
-
