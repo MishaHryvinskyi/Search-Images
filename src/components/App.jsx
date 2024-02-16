@@ -59,6 +59,7 @@ export default class App extends Component {
         {showModal && <Modal closeModal={this.closeModal}>
             <img src={selectedImage} alt="modal" />
         </Modal>}
+        <div></div>
       </div>
     )
   }
