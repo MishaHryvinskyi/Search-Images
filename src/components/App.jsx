@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Loader } from "./Loader/Loader";
 import Searchbar from "./Searchbar/Searchbar";
+import Modal from "./Modal/Modal";
 import imageFinder from "./services/api-image-finder";
 import ImageGallery from "./ImageGallery/ImageGallery";
 
@@ -9,10 +10,19 @@ export default class App extends Component {
     search: '',
     loading: false,
     query: null,
+    isOpen: false
   }
 
   onSubmitSearch = data => {
     this.setState({ search: data });
+  }
+
+  openModal = () => {
+    this.setState({ isOpen: true })
+  }
+
+  closeModal = () => {
+    this.setState({ isOpen: false })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -30,13 +40,13 @@ export default class App extends Component {
   }
 
   render() {
-    const { loading, query, error } = this.state;
+    const { loading, query, isOpen } = this.state;
     return (
       <div>
         <Searchbar onSubmitSearch={this.onSubmitSearch}/>
         {loading && <Loader />}
-        {error && <h2>Ніц не вийшло {query}</h2>}
         <ImageGallery query={query}/>
+        {isOpen && <Modal closeModal={this.closeModal}/>}
       </div>
     )
   }
