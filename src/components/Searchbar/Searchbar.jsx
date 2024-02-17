@@ -1,16 +1,14 @@
-import Notiflix from "notiflix";
 import React, { Component } from "react";
-import { 
-    Search,
-    IconSearch, 
-    SearchForm, 
-    SearchFormBtn, 
-    SearchInput 
-} from "./Searchbar.styled";
+import Notiflix from "notiflix";
+import { Search, IconSearch } from "./Searchbar.styled";
 
 export default class Searchbar extends Component {
     state = {
         search: '',
+    }
+
+    handleChange = ({ target: { value } }) => {
+        this.setState({ search: value.toLowerCase() });
     }
 
     handleSubmit = event => {
@@ -21,40 +19,32 @@ export default class Searchbar extends Component {
             return Notiflix.Notify.failure("Enter anything you're looking🔍 for")
         }
         this.props.onSubmitSearch(search);
-        Notiflix.Notify.success(` ${search}`)
         this.resetForm();
     }
 
-    handleChange = event => {
-        const { value } = event.currentTarget;
-        this.setState({ 
-            search: value.toLowerCase()
+    resetForm = () => {
+        this.setState({
+            search: '',
         })
     }
 
-    resetForm = () => {
-        this.setState({ search: '' })
-    }
-
     render() {
-const { search } = this.state;
-
         return (
             <Search>
-                <SearchForm onSubmit={this.handleSubmit}>
-                    <SearchFormBtn type="submit">
-                    <IconSearch />
-                    </SearchFormBtn>
+                <form onSubmit={this.handleSubmit}>
+                    <button type="submit">
+                        <IconSearch />
+                    </button>
 
-                    <SearchInput
+                    <input
+                    value={this.state.search}
                     onChange={this.handleChange}
-                    value={search}
                     type="text"
                     autoComplete="off"
                     autoFocus
                     placeholder="Search images and photos"
                     />
-                </SearchForm>
+                </form>
             </Search>
         )
     }

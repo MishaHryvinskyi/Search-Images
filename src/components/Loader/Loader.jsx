@@ -5,7 +5,7 @@ export const Loader = () => {
         <InfinitySpin
             visible={true}
             width="200"
-            color="#4fa94d"
+            color="#3f51b5"
             ariaLabel="infinity-spin-loading"
         />  
     )

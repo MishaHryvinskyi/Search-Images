@@ -1,65 +1,42 @@
 import React, { Component } from "react";
-import Searchbar from "./Searchbar/Searchbar";
-import ImageGallery from "./ImageGallery/ImageGallery";
-import Modal from "./Modal/Modal";
 import { Loader } from "./Loader/Loader";
+import Searchbar from "./Searchbar/Searchbar";
+import imageFinder from "./services/api-image-finder";
+import ImageGallery from "./ImageGallery/ImageGallery";
 
 export default class App extends Component {
   state = {
-    searc: '',
-    showModal: false,
-    selectedImage: null,
+    search: '',
     loading: false,
+    query: null,
   }
 
-  openModal = (selectedImage) => {
-    this.setState({ showModal: true, selectedImage })
-  }
-  
-  closeModal = () => {
-    this.setState({ showModal: false, selectedImage: null });
-  }
-
-  handleKeyDown = ({ code }) => {
-    const { showModal } = this.state;
-
-    if(code === 'Escape' && showModal) {
-      this.closeModal();
-    }
-  }
-
-  formSubmitHandler = searc => {
-    this.setState({ searc })
-  }
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
+  onSubmitSearch = data => {
+    this.setState({ search: data });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const prevName = prevProps.searc;
-    const nextName = this.props.searc;
+    const prevName = prevState.search;
+    const nextName = this.state.search;
+
     if(prevName !== nextName) {
       this.setState({ loading: true })
+
+      imageFinder(nextName)
+      .then(response => response.json())
+      .then(data => this.setState({ query: data.hits }))
+      .finally(() => this.setState({ loading: false }))
     }
-
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   render() {
-    const { searc, showModal, selectedImage, loading  } = this.state;
+    const { loading, query, error } = this.state;
     return (
       <div>
-        <Searchbar onSubmitSearch={this.formSubmitHandler}/>
+        <Searchbar onSubmitSearch={this.onSubmitSearch}/>
         {loading && <Loader />}
-        <ImageGallery openModal={this.openModal} query={searc} />
-        {showModal && <Modal closeModal={this.closeModal}>
-            <img src={selectedImage} alt="modal" />
-        </Modal>}
-        <div></div>
+        {error && <h2>Ніц не вийшло {query}</h2>}
+        <ImageGallery query={query}/>
       </div>
     )
   }
