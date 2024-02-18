@@ -5,6 +5,8 @@ import Modal from "./Modal/Modal";
 import imageFinder from "./services/api-image-finder";
 import ImageGallery from "./ImageGallery/ImageGallery";
 
+import { Counter } from "./Counter";
+
 export default class App extends Component {
   state = {
     search: '',
@@ -47,6 +49,7 @@ export default class App extends Component {
         {loading && <Loader />}
         <ImageGallery query={query}/>
         {isOpen && <Modal closeModal={this.closeModal}/>}
+        <Counter />
       </div>
     )
   }
